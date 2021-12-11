@@ -19,9 +19,9 @@ while True:
     while len(q) > 0:
         pos = q.pop()
 
-        if pos[0] < 0 or pos[0] == len(data):
+        if pos[0] not in range(len(data)):
             continue
-        if pos[1] < 0 or pos[1] == len(data[0]):
+        if pos[1] not in range(len(data[0])):
             continue
         if data[pos[0]][pos[1]] == 0:
             continue
