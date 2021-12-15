@@ -7,12 +7,22 @@ data = []
 while (line := input.readline().rstrip()):
     data.append([int(ch) for ch in line])
 
+repeat = 5
 height = len(data)
 width = len(data[0])
+
 h = [(0,0,0)]
 visited = set()
 risks = {}
 risks[(0,0)] = 0
+
+
+def getvalue(i,j):
+    ix, jx = i % height, j % width
+    extra = i // height + j // width
+    num = data[ix][jx] + extra
+    return num % 10 + num // 10
+
 
 while len(h) > 0:
     prisk, i, j = heappop(h) # get pos
@@ -25,18 +35,19 @@ while len(h) > 0:
             continue
         di = i + diff[0]
         dj = j + diff[1]
-        if di < 0 or di == height or dj < 0 or dj == width:
+        if di < 0 or di == height*repeat or dj < 0 or dj == width*repeat:
             continue
         if (di, dj) in visited:
             continue
-        riskFromPos = data[di][dj]
+        riskFromPos = getvalue(di,dj)
         riskToPos = risks[(i,j)]
         targetRisk = risks.get((di,dj), math.inf)
         newTargetRisk = min(targetRisk, riskToPos + riskFromPos)
         risks[(di,dj)] = newTargetRisk
         heappush(h, (newTargetRisk, di, dj))
     visited.add((i,j))
-    
-print(risks[(height-1, width-1)])
+
+
+print(risks[(height*repeat-1, width*repeat-1)])
 
 
